@@ -30,7 +30,13 @@ public class Sistema {
                     break;
                 case 3:
                     buscarProduto();
+                case 4:
+                    atualizarProduto();
+                    break;
+                case 5:
+                    removerProduto();
             }
+
         }
     }
     public void cadastrarProduto(){
@@ -91,11 +97,87 @@ public class Sistema {
                 }
                 System.out.println("Produto nao encontrado");
                 break;
+
             default:
                 System.out.println("Opcao invalida");
         }
 
     }
+    public void atualizarProduto(){
+        System.out.print("ID Produto:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("==ATUALIZAR===");
+        System.out.println(" 1 NOME");
+        System.out.println(" 2 PRECO");
+        System.out.println(" 3 QUANTIDADE");
+        System.out.println(" 4 TODOS OS CAMPOS");
+
+        System.out.print(" Oque deseja atualizar: " );
+        int opcao =scanner.nextInt();
+        scanner.nextLine();
+
+            for (Produto p : produtos) {
+                if(p.getId()==id) {
+                    if (opcao == 1) {
+                        System.out.print("Nome do produto: ");
+                        String nome = scanner.nextLine();
+                        p.setNomeProduto(nome);
+                        System.out.println("Produto atualizado com sucesso.");
+                    return;
+                        } else if (opcao == 2) {
+                        System.out.print("Preco: ");
+                        double preco = scanner.nextDouble();
+                        scanner.nextLine();
+                        p.setPreco(preco);
+                        System.out.println("Produto atualizado com sucesso.");
+                    return;
+                    } else if (opcao == 3) {
+                        System.out.print("Quantidade: ");
+                        int quantidade = scanner.nextInt();
+                        scanner.nextLine();
+                        p.setQuantidade(quantidade);
+                        System.out.println("Produto atualizado com sucesso.");
+                    return;
+                    } else if (opcao==4) {
+                        System.out.print("Nome do produto: ");
+                        String nome = scanner.nextLine();
+                        p.setNomeProduto(nome);
+                        System.out.print("Preco: ");
+                        double preco = scanner.nextDouble();
+                        scanner.nextLine();
+                        p.setPreco(preco);
+                        System.out.print("Quantidade: ");
+                        int quantidade = scanner.nextInt();
+                        scanner.nextLine();
+                        p.setQuantidade(quantidade);
+                        System.out.println("Produto atualizado com sucesso.");
+                    return;
+                    }
+
+
+                }
+                }
+                    System.out.println("Produto nao encontrado.");
+        }
+    public void removerProduto(){
+        System.out.println("=====REMOVER PRODUTO=====");
+        listarProdutos();
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        for(int i =0; i < produtos.size(); i++){
+            if(produtos.get(i).getId()==id){
+                produtos.remove(i);
+                System.out.println("Produto removido com sucesso.");
+            return;
+            }
+        }
+        System.out.println("Produto nao encontrado");
+    }
+
+
+
     public void menuPrincipal() {
         int opcao = -1;
         while (opcao != 5) {
