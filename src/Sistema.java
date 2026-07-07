@@ -4,7 +4,10 @@ public class Sistema {
     private Produto produto;
     private Usuario usuario;
     private ArrayList<Produto> produtos = new ArrayList<>();
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+    SistemaDeCompras sistemaDeCompras = new SistemaDeCompras(usuarios,produtos);
+
 
     public void menuProdutos() {
         int opcao = -1;
@@ -16,6 +19,7 @@ public class Sistema {
             System.out.println(" 4 Atualizar produto");
             System.out.println(" 5 Remover produto ");
             System.out.println(" 6 Voltar ");
+            System.out.println(" 7 Sair ");
             System.out.print("Digite sua opcao: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -30,11 +34,19 @@ public class Sistema {
                     break;
                 case 3:
                     buscarProduto();
+                    break;
                 case 4:
                     atualizarProduto();
                     break;
                 case 5:
                     removerProduto();
+                    break;
+                case 6:
+                    menuPrincipal();
+                case 7:
+                    System.exit(0);
+                default:
+                    System.out.println("Opcao invalida");
             }
 
         }
@@ -182,11 +194,10 @@ public class Sistema {
         int opcao = -1;
         while (opcao != 5) {
             System.out.println("===== SISTEMA DE COMPRAS =======");
-            System.out.println(" 1 Produtos ");
-            System.out.println(" 2 Usuarios ");
-            System.out.println(" 3 Carrinho ");
-            System.out.println(" 4 Finalizar compra ");
-            System.out.println(" 5 Sair ");
+            System.out.println(" [1] Produtos ");
+            System.out.println(" [2] Usuarios ");
+            System.out.println(" [3] Carrinho ");
+            System.out.println(" [4] Sair ");
             System.out.print("Digite sua opcao ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -200,54 +211,133 @@ public class Sistema {
                     menuUsuarios();
                     break;
                 case 3:
-                    menuCarrinho();
+                    sistemaDeCompras.menuCarrinho(usuario);
                     break;
                 case 4:
-                    break;
-                case 5:
                     System.exit(0);
             }
         }
     }
     public void menuUsuarios() {
         int opcao = -1;
-        while (opcao != 5) {
+        while (opcao != 6) {
             System.out.println("===== USUARIOS =======");
             System.out.println(" 1 Cadastrar Usuário ");
             System.out.println(" 2 Listar Usuários ");
             System.out.println(" 3 Buscar Usuário");
-            System.out.println(" 4 Remover Usuário ");
-            System.out.println(" 5 Voltar ");
+            System.out.println(" 4 Atualizar Usuário");
+            System.out.println(" 5 Remover Usuário ");
+            System.out.println(" 6 Voltar ");
             System.out.print("Digite sua opcao");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcao){
                 case 1:
+                    cadastrarUsuario();
                     break;
-
+                case 2:
+                    listarUsuarios();
+                    break;
+                case 3:
+                    buscarUsuario();
+                    break;
+                case 4:
+                    atualizarUsuario();
+                    break;
+                case 5:
+                    removerUsuario();
+                case 6:
+                    menuPrincipal();
             }
         }
     }
-    public void menuCarrinho() {
-        int opcao = -1;
-        while (opcao != 6) {
-            System.out.println("===== CARRINHO =======");
-            System.out.println(" 1 Adicionar Produto ");
-            System.out.println(" 2 Remover Produto ");
-            System.out.println(" 3 Alterar Quantidade");
-            System.out.println(" 4 Ver Carrinho ");
-            System.out.println(" 5 Esvaziar Carrinho ");
-            System.out.println(" 6 Sair ");
-            System.out.print("Digite sua opcao");
-            opcao = scanner.nextInt();
-            scanner.nextLine();
+    public void cadastrarUsuario(){
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("CPF: ");
+        String cpf = scanner.nextLine();
+        Usuario usuario = new Usuario(nome,cpf);
+        usuarios.add(usuario);
+        System.out.println("Usuario cadastrado com sucesso.");
+    }
+    public void listarUsuarios(){
+        System.out.println("====LISTA DE USUARIOS====");
+        for(Usuario u: usuarios){
+            u.exibirUsuario();
 
-            switch (opcao){
-                case 1:
-                break;
+        }
+    }
+    public void buscarUsuario(){
+        System.out.println("===BUSCAR USUARIO===");
+        System.out.println("Digite o CPF do usuario: ");
+        String cpf = scanner.nextLine();
+        for(Usuario u: usuarios){
+            if(u.getCpf().equalsIgnoreCase(cpf)){
+                System.out.println("Usuario encontrado!");
+                u.exibirUsuario();
+            return;
             }
         }
+        System.out.println("Usuario nao encontrado");
+    }
+    public void atualizarUsuario(){
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("===ATUALIZAR===");
+        System.out.println("=== 1 NOME===");
+        System.out.println("=== 2 CPF===");
+        System.out.println("=== 3 TODOS OS CAMPOS===");
+        System.out.print(" Escolha sua opcao ");
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        for(Usuario u :usuarios){
+            if(u.getId()==id){
+                if (opcao==1) {
+                    System.out.print("Novo nome: ");
+                    String nNome = scanner.nextLine();
+                    u.setNome(nNome);
+                    System.out.println("Usuario atualizado!");
+                    System.out.println("---------------------");
+        return;
+                } else if (opcao==2) {
+                    System.out.println("novo cpf: ");
+                    String cpf = scanner.nextLine();
+                    u.setCpf(cpf);
+                    System.out.println("Usuario atualizado!");
+                    System.out.println("---------------------");
+
+        return; } else if (opcao==3) {
+                    System.out.print("Novo nome: ");
+                    String nNome = scanner.nextLine();
+                    u.setNome(nNome);
+                    System.out.print("novo cpf: ");
+                    String cpf = scanner.nextLine();
+                    u.setCpf(cpf);
+                    System.out.println("Usuario atualizado!");
+                    System.out.println("---------------------");
+        return; }
+            }
+        }
+
+    }
+    public void removerUsuario(){
+        System.out.println("===EXCLUIR USUARIO===");
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+
+        for(int i=0; i<usuarios.size(); i++){
+            if(usuarios.get(i).getId()==id){
+                usuarios.remove(i);
+                System.out.println("Produto removido com sucesso!");
+            return;
+            }
+        }
+        System.out.println("Usuario nao encontrado");
     }
 
 

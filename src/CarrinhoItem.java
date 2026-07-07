@@ -4,8 +4,6 @@ public class CarrinhoItem {
     private Produto produto;
     private int quantidade;
 
-    ArrayList<CarrinhoItem> carrinhoItems = new ArrayList<>();
-
     public Produto getProduto() {
         return produto;
     }
@@ -21,4 +19,6 @@ public class CarrinhoItem {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+
 }
